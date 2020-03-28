@@ -11,7 +11,8 @@ class Runtime:
         self.game_board = game_board.GameBoard()
         self.screen = self.game_board.get_screen
         self.pos = []
-        self.enemy_club = enemy.EnemyClub()
+        self.enemy_1 = enemy.Enemy1()
+        self.enemy_2 = enemy.Enemy2()
 
     def run(self):
         running = True
@@ -30,7 +31,7 @@ class Runtime:
 
             self.game_board.draw()
 
-            self.enemy_club.draw(self.screen)
+            self.enemy_2.draw(self.screen)
 
             pygame.display.update()
         pygame.quit()
