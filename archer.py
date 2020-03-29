@@ -20,11 +20,12 @@ class Archer:
         self.imgs = []
         self.timer = time.time()
         self.enemy_in_range = False
+        self.pause = False
 
     def draw(self, surface):
         if self.animation_index >= 5:
             self.animation_index = 0
-        if self.enemy_in_range:
+        if self.enemy_in_range and not self.pause:
             self.img = pygame.transform.scale(self.imgs[self.animation_index], (self.width, self.height))
         else:
             self.img = pygame.transform.scale(self.imgs[0], (self.width, self.height))
@@ -58,6 +59,16 @@ class Archer:
         """
         if self.flipped != x:
             self.flipped = x
+
+    def set_pause(self, x):
+        """
+        Pause the enemy movement.
+        :param x: bool
+        :return: None
+        """
+        if self.pause != x:
+            self.pause = x
+
 
 class Archer1(Archer):
     def __init__(self, x, y):

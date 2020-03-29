@@ -1,6 +1,8 @@
 import pygame
 import archer
 
+imgs = [pygame.image.load('assets/towers/1/' + str(x) + '.png') for x in range(1,7)]
+
 
 class Tower:
     """
@@ -12,12 +14,15 @@ class Tower:
         self.y = y
         self.width = 85
         self.height = 96
-        self.img = None
         self.rect = pygame.Rect(self.x, self.y, self.width, self.height)
         self.clicked = None
         self.range = 120
         self.range_rect = pygame.Rect(self.x - (self.range - self.width // 2), self.y - (self.range - self.height / 2), self.range * 2, self.range * 2)
         self.archer = archer.Archer1(self.get_archer_position[0], self.get_archer_position[1])
+        self.pause = False
+        self.damage = 1
+        self.level = 0
+        self.img = pygame.transform.scale(imgs[0], (self.width, self.height))
 
     def draw(self, surface):
         """
@@ -94,8 +99,16 @@ class Tower:
         """
         self.archer.set_flipped(x)
 
+    def set_pause(self, x):
+        """
+        Pause the archer movement.
+        :param x: bool
+        :return: None
+        """
+        self.archer.set_pause(x)
 
-class Tower1(Tower):
-    def __init__(self, x, y):
-        super().__init__(x, y)
-        self.img = pygame.transform.scale(pygame.image.load('assets/towers/1/1.png'), (self.width, self.height))
+    def set_upgrade(self):
+        if self.level < len(imgs)-1:
+            self.level += 1
+            self.damage += 1
+            self.img = pygame.transform.scale(imgs[self.level], (self.width, self.height))

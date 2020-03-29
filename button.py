@@ -103,9 +103,6 @@ class Sound(Button):
             surface.blit(pygame.transform.scale(self.imgs[0], (self.width, self.height)), (self.x, self.y))
 
 
-
-
-
 class Music(Button):
     def __init__(self, x, y):
         super().__init__(x, y)

@@ -31,6 +31,7 @@ class Enemy:
         self.change = ()
         self.flipped = None
         self.timer = time.time()
+        self.pause = False
 
     def hit(self):
         """
@@ -95,8 +96,9 @@ class Enemy:
             self.x = 1245
             self.y = 701
         else:
-            self.x += self.change[0]
-            self.y += self.change[1]
+            if not self.pause:
+                self.x += self.change[0]
+                self.y += self.change[1]
 
     def draw(self, surface):
         """
@@ -112,8 +114,8 @@ class Enemy:
             surface.blit(pygame.transform.flip(self.img, True, False), (self.x, self.y))
         else:  # if the enemy is moving right
             surface.blit(self.img, (self.x, self.y))
-
-        self.animation_index += 1
+        if not self.pause:
+            self.animation_index += 1
         self._health_bar(surface)
         self._move()
 
@@ -124,6 +126,15 @@ class Enemy:
         :return: Rect obj
         """
         return pygame.Rect(self.x, self.y, self.width, self.height)
+
+    def set_pause(self, x):
+        """
+        Pause the enemy movement.
+        :param x: bool
+        :return: None
+        """
+        if self.pause != x:
+            self.pause = x
 
 
 class Enemy1(Enemy):
