@@ -37,6 +37,10 @@ class Enemy:
         """
         self.health -= 1
 
+    @property
+    def get_position(self):
+        return self.x, self.y
+
     def _health_bar(self, surface):
         """
         Draws enemy health bar.
@@ -85,6 +89,7 @@ class Enemy:
 
         if self.path_pos + 1 >= len(self.path):
             self.x = 1245
+            self.y = 701
         else:
             self.x += self.change[0]
             self.y += self.change[1]
