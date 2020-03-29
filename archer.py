@@ -24,7 +24,10 @@ class Archer:
     def draw(self, surface):
         if self.animation_index >= 5:
             self.animation_index = 0
-        self.img = pygame.transform.scale(self.imgs[self.animation_index], (self.width, self.height))
+        if self.enemy_in_range:
+            self.img = pygame.transform.scale(self.imgs[self.animation_index], (self.width, self.height))
+        else:
+            self.img = pygame.transform.scale(self.imgs[0], (self.width, self.height))
 
         if self.flipped:  # if the enemy is left
             surface.blit(pygame.transform.flip(self.img, True, False), (self.x, self.y))
@@ -37,6 +40,14 @@ class Archer:
 
     def attack(self):
         pass
+
+    def set_enemy_in_range(self, x):
+        """
+        Sets self.enemy_in_rang
+        :param x: bool
+        :return: None
+        """
+        self.enemy_in_range = x
 
 
 class Archer1(Archer):

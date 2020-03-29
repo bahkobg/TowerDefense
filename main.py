@@ -36,6 +36,12 @@ class Runtime:
                 self.enemies.append(random.choice([enemy.Enemy1(), enemy.Enemy2(), enemy.Enemy3(), enemy.Enemy4(), enemy.Enemy5()]))
                 self.enemies_count += 1
 
+            # Check when enemies are in range of a tower act upon
+            for t in self.towers:
+                for e in self.enemies:
+                    if t.get_range_rect.colliderect(e.get_rect):
+                        pass # HIT ACTION HERE
+
             # Event loop
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:

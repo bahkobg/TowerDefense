@@ -7,14 +7,15 @@ class Tower:
     """
 
     def __init__(self, x, y):
-        self.x = x  # 527
-        self.y = y  # 180
+        self.x = x
+        self.y = y
         self.width = 85
         self.height = 96
         self.img = None
         self.rect = pygame.Rect(self.x, self.y, self.width, self.height)
         self.clicked = None
         self.range = 120
+        self.range_rect = pygame.Rect(self.x - (self.range - self.width // 2), self.y - (self.range - self.height / 2), self.range * 2, self.range * 2)
 
     def draw(self, surface):
         """
@@ -23,9 +24,9 @@ class Tower:
         :return: None
         """
         if self.clicked:
-            circle_surface = pygame.Surface((self.range*4, self.range*4), pygame.SRCALPHA, 32)
-            pygame.draw.circle(circle_surface, (128, 128, 128, 128), (self.range,self.range), self.range, 0)
-            surface.blit(circle_surface, (self.rect.center[0]-self.range, self.rect.center[1]-self.range))
+            circle_surface = pygame.Surface((self.range * 2, self.range * 2), pygame.SRCALPHA, 32)
+            pygame.draw.circle(circle_surface, (128, 128, 128, 128), (self.range, self.range), self.range, 0)
+            surface.blit(circle_surface, (self.rect.center[0] - self.range, self.rect.center[1] - self.range))
         surface.blit(self.img, (self.x, self.y))
 
     @property
@@ -35,6 +36,14 @@ class Tower:
         :return:
         """
         return self.rect
+
+    @property
+    def get_range_rect(self):
+        """
+        Return the range object of the tower
+        :return:Rect() obj
+        """
+        return self.range_rect
 
     @property
     def get_archer_position(self):

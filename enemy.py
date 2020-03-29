@@ -113,6 +113,14 @@ class Enemy:
         self._health_bar(surface)
         self._move()
 
+    @property
+    def get_rect(self):
+        """
+
+        :return: Rect obj
+        """
+        return pygame.Rect(self.x, self.y, self.width, self.height)
+
 
 class Enemy1(Enemy):
     def __init__(self):
