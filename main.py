@@ -1,6 +1,8 @@
 import pygame
 import game_board
 import enemy
+import time
+import random
 
 
 class Runtime:
@@ -11,14 +13,19 @@ class Runtime:
         self.game_board = game_board.GameBoard()
         self.screen = self.game_board.get_screen
         self.pos = []
-        self.enemy_1 = enemy.Enemy1()
-        self.enemy_2 = enemy.Enemy2()
+        self.enemies = []
+        self.timer = time.time()
 
     def run(self):
         running = True
         while running:
             # Set the game to 60 FPS
             self.clock.tick(30)
+
+            # Set internal timer
+            if time.time() - self.timer > 1:
+                self.timer = time.time()
+                self.enemies.append(random.choice([enemy.Enemy1(), enemy.Enemy2(), enemy.Enemy3(), enemy.Enemy4(), enemy.Enemy5()]))
 
             # Event loop
             for event in pygame.event.get():
@@ -31,8 +38,10 @@ class Runtime:
 
             self.game_board.draw()
 
-            self.enemy_2.draw(self.screen)
+            for en in self.enemies:
+                en.draw(self.screen)
 
+            self.game_board.draw_trees()
             pygame.display.update()
         pygame.quit()
 

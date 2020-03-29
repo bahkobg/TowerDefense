@@ -1,9 +1,11 @@
 import pygame
 import math
-import time
 
 enemy_1 = [pygame.image.load('assets/enemies/1/' + str(x) + '.png') for x in range(1, 11)]
 enemy_2 = [pygame.image.load('assets/enemies/2/' + str(x) + '.png') for x in range(1, 11)]
+enemy_3 = [pygame.image.load('assets/enemies/3/' + str(x) + '.png') for x in range(1, 11)]
+enemy_4 = [pygame.image.load('assets/enemies/4/' + str(x) + '.png') for x in range(1, 11)]
+enemy_5 = [pygame.image.load('assets/enemies/5/' + str(x) + '.png') for x in range(1, 11)]
 
 
 class Enemy:
@@ -20,7 +22,8 @@ class Enemy:
         self.x = 1244
         self.y = 110
         self.path = []
-        self.health = 1
+        self.health_max = 3
+        self.health = self.health_max
         self.animation_index = 0
         self.imgs = []
         self.img = None
@@ -32,7 +35,24 @@ class Enemy:
         Define actions when the enemy is hit.
         :return: None
         """
-        pass
+        self.health -= 1
+
+    def _health_bar(self, surface):
+        """
+        Draws enemy health bar.
+        :param surface: Surface obj
+        :return: None
+        """
+        length = 42  # Must divide by health_max
+        move_by = (round(length // self.health_max))
+        health_bar = move_by * self.health
+
+        if self.flipped:
+            pygame.draw.rect(surface, (255, 0, 0), (self.x + 16, self.y, length, 8))
+            pygame.draw.rect(surface, (0, 255, 0), (self.x + 16, self.y, health_bar, 8))
+        else:
+            pygame.draw.rect(surface, (255, 0, 0), (self.x, self.y, length, 8))
+            pygame.draw.rect(surface, (0, 255, 0), (self.x, self.y, health_bar, 8))
 
     def _move(self):
         """
@@ -85,6 +105,7 @@ class Enemy:
             surface.blit(self.img, (self.x, self.y))
 
         self.animation_index += 1
+        self._health_bar(surface)
         self._move()
 
 
@@ -92,11 +113,32 @@ class Enemy1(Enemy):
     def __init__(self):
         super().__init__()
         self.imgs = enemy_1
-        self.path = [(1100, 100), (470, 110), (384, 240), (631, 359), (702, 528), (1194, 541), (1240, 541)]
+        self.path = [(1100, 100), (470, 100), (384, 240), (631, 359), (702, 528), (1194, 541), (1242, 541)]
 
 
 class Enemy2(Enemy):
     def __init__(self):
         super().__init__()
         self.imgs = enemy_2
-        self.path = [(1100, 100), (470, 110), (384, 240), (631, 359), (702, 528), (1194, 541), (1240, 541)]
+        self.path = [(1100, 100), (470, 100), (384, 240), (639, 444), (603, 509), (469, 562), (479, 690), (475, 699)]
+
+
+class Enemy3(Enemy):
+    def __init__(self):
+        super().__init__()
+        self.imgs = enemy_3
+        self.path = [(1100, 100), (470, 100), (384, 240), (631, 359), (702, 528), (1194, 541), (1242, 541)]
+
+
+class Enemy4(Enemy):
+    def __init__(self):
+        super().__init__()
+        self.imgs = enemy_4
+        self.path = [(1100, 100), (470, 100), (384, 240), (639, 444), (603, 509), (469, 562), (479, 690), (475, 699)]
+
+
+class Enemy5(Enemy):
+    def __init__(self):
+        super().__init__()
+        self.imgs = enemy_5
+        self.path = [(1100, 100), (470, 100), (384, 240), (631, 359), (702, 528), (1194, 541), (1242, 541)]
