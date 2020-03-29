@@ -4,6 +4,7 @@ import enemy
 import time
 import random
 import tower
+import button
 
 
 class Runtime:
@@ -20,12 +21,14 @@ class Runtime:
         self.enemies_count = 0
         self.enemies_max = 5 * self.level
         self.first_enemy = None
+        self.spf = 30
+        self.buttons = [button.Sound(100, 610), button.Play(10, 610), button.Quick(190, 610)]
 
     def run(self):
         running = True
         while running:
             # Set the game to 30 FPS
-            self.clock.tick(30)
+            self.clock.tick(self.spf)
 
             # Spawn enemies based on current game level
             if time.time() - self.timer > 0.8 and self.enemies_count < self.enemies_max:
@@ -34,17 +37,17 @@ class Runtime:
                 self.first_enemy = self.enemies[0]
                 self.enemies_count += 1
 
-            # Check when enemies are in range of a tower act upon
+            # Check when the first enemy is in range of a tower and act upon
             for t in self.towers:
                 if self.first_enemy:
                     if t.get_range_rect.colliderect(self.first_enemy.get_rect):
-                        if self.first_enemy.get_rect.centerx > t.get_x:
+                        if self.first_enemy.get_rect.centerx > t.get_x:  # Check if the first enemy is right of the tower
                             t.set_archer_flipped(False)
-                        else:
+                        else:  # Check if the first enemy is left of the tower
                             t.set_archer_flipped(True)
-                        t.set_archer_attack(True)
+                        t.set_archer_attack(True)  # Set the archer of the tower to attack
                     else:
-                        t.set_archer_attack(False)
+                        t.set_archer_attack(False)  # Set the archer of the tower to stop attack
 
             # Event loop
             for event in pygame.event.get():
@@ -56,6 +59,10 @@ class Runtime:
                     for i in range(len(self.towers)):
                         if self.towers[i].get_rect.collidepoint(mouse_pos):
                             self.towers[i].set_toggle_clicked()
+
+                    for i in range(len(self.buttons)):
+                        if self.buttons[i].get_rect.collidepoint(mouse_pos):
+                            self.buttons[i].set_toggle_clicked()
 
             # Draw the background
             self.game_board.draw()
@@ -73,6 +80,9 @@ class Runtime:
             # Draw the overlay trees
             self.game_board.draw_trees()
 
+            # Draw the buttons
+            for i in range(len(self.buttons)):
+                self.buttons[i].draw(self.screen)
 
             # Update game display
             pygame.display.update()

@@ -28,7 +28,6 @@ class Tower:
         if self.clicked:
             circle_surface = pygame.Surface((self.range * 2, self.range * 2), pygame.SRCALPHA, 32)
             pygame.draw.circle(circle_surface, (128, 128, 128, 128), (self.range, self.range), self.range, 0)
-            pygame.draw.rect(surface, (0, 0, 0), self.get_range_rect)
             surface.blit(circle_surface, (self.rect.center[0] - self.range, self.rect.center[1] - self.range))
         surface.blit(self.img, (self.x, self.y))
         self.archer.draw(surface)
