@@ -14,14 +14,15 @@ class Runtime:
         self.clock = pygame.time.Clock()
         self.game_board = game_board.GameBoard()
         self.screen = self.game_board.get_screen
-        self.pos = []
         self.enemies = []
         self.timer = time.time()
-        self.tower1 = tower.Tower1(540, 150)
+        self.towers = [tower.Tower1(527, 180), tower.Tower1(792, 180), tower.Tower1(1050, 180)]
         self.level = 1
         self.enemies_count = 0
         self.enemies_max = 5 * self.level
-        self.archer1 = archer.Archer1(self.tower1.get_archer_position[0], self.tower1.get_archer_position[1])
+        self.archers = [archer.Archer1(self.towers[0].get_archer_position[0], self.towers[0].get_archer_position[1]),
+                        archer.Archer1(self.towers[1].get_archer_position[0], self.towers[1].get_archer_position[1]),
+                        archer.Archer1(self.towers[2].get_archer_position[0], self.towers[2].get_archer_position[1])]
 
     def run(self):
         running = True
@@ -41,23 +42,27 @@ class Runtime:
                     running = False
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     mouse_pos = pygame.mouse.get_pos()
-                    self.pos.append(mouse_pos)
-                    print(self.pos)
+                    print(mouse_pos)
+                    for i in range(len(self.towers)):
+                        if self.towers[i].get_rect.collidepoint(mouse_pos):
+                            self.towers[i].set_toggle_clicked()
 
             # Draw the background
             self.game_board.draw()
 
             # Draw the enemies
-            for i in range(len(self.enemies)-1, -1, -1):
+            for i in range(len(self.enemies) - 1, -1, -1):
                 self.enemies[i].draw(self.screen)
                 if self.enemies[i].get_position == (1245, 701):
                     self.enemies.remove(self.enemies[i])
 
             # Draw the towers
-            self.tower1.draw(self.screen)
+            for i in range(len(self.towers)):
+                self.towers[i].draw(self.screen)
 
             # Draw the archers
-            self.archer1.draw(self.screen)
+            for i in range(len(self.archers)):
+                self.archers[i].draw(self.screen)
 
             # Draw the overlay trees
             self.game_board.draw_trees()

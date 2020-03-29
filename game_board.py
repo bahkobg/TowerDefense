@@ -9,7 +9,7 @@ class GameBoard:
     def __init__(self):
         self.img = pygame.transform.scale(pygame.image.load('assets/backgrounds/1/bg1.png'), (1244, 700))
         self.tree = pygame.transform.scale(pygame.image.load('assets/backgrounds/1/tree.png'), (67, 105))
-        self.screen = pygame.display.set_mode((1244, 700))
+        self.screen = pygame.display.set_mode((1244, 700), pygame.SRCALPHA)
 
     def draw(self):
         """

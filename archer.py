@@ -19,15 +19,16 @@ class Archer:
         self.flipped = True
         self.imgs = []
         self.timer = time.time()
+        self.enemy_in_range = False
 
     def draw(self, surface):
         if self.animation_index >= 5:
             self.animation_index = 0
         self.img = pygame.transform.scale(self.imgs[self.animation_index], (self.width, self.height))
 
-        if self.flipped:  # if the enemy is moving left
+        if self.flipped:  # if the enemy is left
             surface.blit(pygame.transform.flip(self.img, True, False), (self.x, self.y))
-        else:  # if the enemy is moving right
+        else:  # if the enemy is right
             surface.blit(self.img, (self.x, self.y))
 
         if time.time() - self.timer > 0.15:
