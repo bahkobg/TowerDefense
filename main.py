@@ -19,6 +19,7 @@ class Runtime:
         self.level = 1
         self.enemies_count = 0
         self.enemies_max = 5 * self.level
+        self.first_enemy = None
 
     def run(self):
         running = True
@@ -30,9 +31,20 @@ class Runtime:
             if time.time() - self.timer > 0.8 and self.enemies_count < self.enemies_max:
                 self.timer = time.time()
                 self.enemies.append(random.choice([enemy.Enemy1(), enemy.Enemy2(), enemy.Enemy3(), enemy.Enemy4(), enemy.Enemy5()]))
+                self.first_enemy = self.enemies[0]
                 self.enemies_count += 1
 
             # Check when enemies are in range of a tower act upon
+            for t in self.towers:
+                if self.first_enemy:
+                    if t.get_range_rect.colliderect(self.first_enemy.get_rect):
+                        if self.first_enemy.get_rect.centerx > t.get_x:
+                            t.set_archer_flipped(False)
+                        else:
+                            t.set_archer_flipped(True)
+                        t.set_archer_attack(True)
+                    else:
+                        t.set_archer_attack(False)
 
             # Event loop
             for event in pygame.event.get():
@@ -60,6 +72,7 @@ class Runtime:
 
             # Draw the overlay trees
             self.game_board.draw_trees()
+
 
             # Update game display
             pygame.display.update()

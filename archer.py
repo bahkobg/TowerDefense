@@ -47,8 +47,17 @@ class Archer:
         :param x: bool
         :return: None
         """
-        self.enemy_in_range = x
+        if self.enemy_in_range != x:
+            self.enemy_in_range = x
 
+    def set_flipped(self, x):
+        """
+        Sets archer to flip
+        :param x: bool
+        :return: None
+        """
+        if self.flipped != x:
+            self.flipped = x
 
 class Archer1(Archer):
     def __init__(self, x, y):
