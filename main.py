@@ -17,16 +17,16 @@ class Runtime:
         self.pos = []
         self.enemies = []
         self.timer = time.time()
-        self.tower1 = tower.Tower1()
+        self.tower1 = tower.Tower1(540, 150)
         self.level = 1
         self.enemies_count = 0
         self.enemies_max = 5 * self.level
-        self.archer1 = archer.Archer1()
+        self.archer1 = archer.Archer1(self.tower1.get_archer_position[0], self.tower1.get_archer_position[1])
 
     def run(self):
         running = True
         while running:
-            # Set the game to 60 FPS
+            # Set the game to 30 FPS
             self.clock.tick(30)
 
             # Spawn enemies based on current game level

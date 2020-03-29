@@ -19,7 +19,6 @@ class Archer:
         self.flipped = True
         self.imgs = []
         self.timer = time.time()
-        self.rect =
 
     def draw(self, surface):
         if self.animation_index >= 5:
@@ -40,6 +39,6 @@ class Archer:
 
 
 class Archer1(Archer):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, x, y):
+        super().__init__(x, y)
         self.imgs = archer_1
