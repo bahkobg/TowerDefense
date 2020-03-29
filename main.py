@@ -4,7 +4,6 @@ import enemy
 import time
 import random
 import tower
-import archer
 
 
 class Runtime:
@@ -20,9 +19,6 @@ class Runtime:
         self.level = 1
         self.enemies_count = 0
         self.enemies_max = 5 * self.level
-        self.archers = [archer.Archer1(self.towers[0].get_archer_position[0], self.towers[0].get_archer_position[1]),
-                        archer.Archer1(self.towers[1].get_archer_position[0], self.towers[1].get_archer_position[1]),
-                        archer.Archer1(self.towers[2].get_archer_position[0], self.towers[2].get_archer_position[1])]
 
     def run(self):
         running = True
@@ -37,10 +33,6 @@ class Runtime:
                 self.enemies_count += 1
 
             # Check when enemies are in range of a tower act upon
-            for t in self.towers:
-                for e in self.enemies:
-                    if t.get_range_rect.colliderect(e.get_rect):
-                        pass # HIT ACTION HERE
 
             # Event loop
             for event in pygame.event.get():
@@ -65,10 +57,6 @@ class Runtime:
             # Draw the towers
             for i in range(len(self.towers)):
                 self.towers[i].draw(self.screen)
-
-            # Draw the archers
-            for i in range(len(self.archers)):
-                self.archers[i].draw(self.screen)
 
             # Draw the overlay trees
             self.game_board.draw_trees()

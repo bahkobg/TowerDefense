@@ -1,5 +1,6 @@
 import pygame
 import math
+import time
 
 enemy_1 = [pygame.image.load('assets/enemies/1/' + str(x) + '.png') for x in range(1, 11)]
 enemy_2 = [pygame.image.load('assets/enemies/2/' + str(x) + '.png') for x in range(1, 11)]
@@ -29,13 +30,16 @@ class Enemy:
         self.img = None
         self.change = ()
         self.flipped = None
+        self.timer = time.time()
 
-    def _hit(self):
+    def hit(self):
         """
         Define actions when the enemy is hit.
         :return: None
         """
-        self.health -= 1
+        if time.time() - self.timer > 0.15:
+            self.health -= 1
+            self.timer = time.time()
 
     @property
     def get_position(self):

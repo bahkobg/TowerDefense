@@ -1,4 +1,5 @@
 import pygame
+import archer
 
 
 class Tower:
@@ -16,6 +17,7 @@ class Tower:
         self.clicked = None
         self.range = 120
         self.range_rect = pygame.Rect(self.x - (self.range - self.width // 2), self.y - (self.range - self.height / 2), self.range * 2, self.range * 2)
+        self.archer = archer.Archer1(self.get_archer_position[0], self.get_archer_position[1])
 
     def draw(self, surface):
         """
@@ -28,6 +30,7 @@ class Tower:
             pygame.draw.circle(circle_surface, (128, 128, 128, 128), (self.range, self.range), self.range, 0)
             surface.blit(circle_surface, (self.rect.center[0] - self.range, self.rect.center[1] - self.range))
         surface.blit(self.img, (self.x, self.y))
+        self.archer.draw(surface)
 
     @property
     def get_rect(self):
