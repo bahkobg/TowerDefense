@@ -1,7 +1,9 @@
 import pygame
 import archer
+import menu
 
-imgs = [pygame.image.load('assets/towers/1/' + str(x) + '.png') for x in range(1, 7)]
+
+imgs = [pygame.image.load('assets/towers/1/' + str(x) + '.png') for x in range(1,7)]
 
 
 class Tower:
@@ -14,6 +16,7 @@ class Tower:
         self.y = y
         self.width = 85
         self.height = 96
+        self.menu_upgrade = menu.UpgradeMenu(self.x-128, self.y-150)
         self.rect = pygame.Rect(self.x, self.y, self.width, self.height)
         self.clicked = None
         self.range = 120
@@ -35,7 +38,15 @@ class Tower:
             pygame.draw.circle(circle_surface, (128, 128, 128, 128), (self.range, self.range), self.range, 0)
             surface.blit(circle_surface, (self.rect.center[0] - self.range, self.rect.center[1] - self.range))
         surface.blit(self.img, (self.x, self.y))
+
+        # Draw the tower's archer
         self.archer.draw(surface)
+
+        # Draw the tower's upgrade menu
+        self.menu_upgrade.draw(surface)
+
+    def click(self, pos):
+        self.menu_upgrade.click(pos)
 
     @property
     def get_rect(self):
@@ -108,7 +119,7 @@ class Tower:
         self.archer.set_pause(x)
 
     def set_upgrade(self):
-        if self.level < len(imgs) - 1:
+        if self.level < len(imgs)-1:
             self.level += 1
             self.damage += 1
             self.img = pygame.transform.scale(imgs[self.level], (self.width, self.height))
@@ -117,6 +128,9 @@ class Tower:
     def get_damage(self):
         return self.damage
 
-    def enemy_in_range(self, first_enemy, last_enemy):
-        if self.range_rect.colliderect(first_enemy.get_rect) or self.range_rect.colliderect(last_enemy.get_rect):
-            return True
+    def enemy_in_range(self, enemies):
+        for enmy in enemies:
+            if self.range_rect.colliderect(enmy.get_rect):
+                return True
+
+

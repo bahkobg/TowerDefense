@@ -1,7 +1,7 @@
 import pygame
 import time
 
-archer_1 = [pygame.image.load('assets/archers/1/' + str(x) + '.png') for x in range(1, 13)]
+archer_1 = [pygame.image.load('assets/archers/1/' + str(x) + '.png') for x in range(1, 14)]
 arrows = [pygame.transform.scale(pygame.image.load('assets/archers/arrow.png'), (6 * x, 6 * x)) for x in range(5)]
 
 
@@ -21,6 +21,7 @@ class Archer:
         self.imgs = []
         self.timer = time.time()
         self.enemy_in_range = False
+        self.enemy_in_close_range = False
         self.pause = False
         self.arrow = None
 

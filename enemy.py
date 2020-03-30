@@ -32,13 +32,26 @@ class Enemy:
         self.flipped = None
         self.timer = time.time()
         self.pause = True
+        self.dead = False
 
     def set_hit(self, x):
         """
         Define actions when the enemy is hit.
         :return: None
         """
-        self.health -= x
+        if self.health > 0:
+            self.health -= x
+        else:
+            self.dead = True
+
+    def set_dead(self):
+        self.x = 0
+        self.y = 0
+        self.dead = True
+
+    @property
+    def get_dead(self):
+        return self.dead
 
     @property
     def get_position(self):
