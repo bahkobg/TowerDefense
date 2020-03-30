@@ -1,7 +1,7 @@
 import pygame
 import archer
 
-imgs = [pygame.image.load('assets/towers/1/' + str(x) + '.png') for x in range(1,7)]
+imgs = [pygame.image.load('assets/towers/1/' + str(x) + '.png') for x in range(1, 7)]
 
 
 class Tower:
@@ -108,7 +108,15 @@ class Tower:
         self.archer.set_pause(x)
 
     def set_upgrade(self):
-        if self.level < len(imgs)-1:
+        if self.level < len(imgs) - 1:
             self.level += 1
             self.damage += 1
             self.img = pygame.transform.scale(imgs[self.level], (self.width, self.height))
+
+    @property
+    def get_damage(self):
+        return self.damage
+
+    def enemy_in_range(self, first_enemy, last_enemy):
+        if self.range_rect.colliderect(first_enemy.get_rect) or self.range_rect.colliderect(last_enemy.get_rect):
+            return True

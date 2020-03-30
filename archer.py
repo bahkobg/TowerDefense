@@ -2,6 +2,7 @@ import pygame
 import time
 
 archer_1 = [pygame.image.load('assets/archers/1/' + str(x) + '.png') for x in range(1, 13)]
+arrows = [pygame.transform.scale(pygame.image.load('assets/archers/arrow.png'), (6 * x, 6 * x)) for x in range(5)]
 
 
 class Archer:
@@ -21,18 +22,24 @@ class Archer:
         self.timer = time.time()
         self.enemy_in_range = False
         self.pause = False
+        self.arrow = None
 
     def draw(self, surface):
         if self.animation_index >= 5:
             self.animation_index = 0
         if self.enemy_in_range and not self.pause:
             self.img = pygame.transform.scale(self.imgs[self.animation_index], (self.width, self.height))
+            self.arrow = arrows[self.animation_index]
         else:
             self.img = pygame.transform.scale(self.imgs[0], (self.width, self.height))
+            self.arrow = arrows[0]
 
         if self.flipped:  # if the enemy is left
+            surface.blit(self.arrow, (self.x - 25, self.y - 25))
             surface.blit(pygame.transform.flip(self.img, True, False), (self.x, self.y))
+
         else:  # if the enemy is right
+            surface.blit(pygame.transform.flip(self.arrow, True, False), (self.x + 50, self.y - 25))
             surface.blit(self.img, (self.x, self.y))
 
         if time.time() - self.timer > 0.15:

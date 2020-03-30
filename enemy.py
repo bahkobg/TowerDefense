@@ -23,7 +23,7 @@ class Enemy:
         self.x = 1244
         self.y = 110
         self.path = []
-        self.health_max = 3
+        self.health_max = 10
         self.health = self.health_max
         self.animation_index = 0
         self.imgs = []
@@ -31,16 +31,14 @@ class Enemy:
         self.change = ()
         self.flipped = None
         self.timer = time.time()
-        self.pause = False
+        self.pause = True
 
-    def hit(self):
+    def set_hit(self, x):
         """
         Define actions when the enemy is hit.
         :return: None
         """
-        if time.time() - self.timer > 0.15:
-            self.health -= 1
-            self.timer = time.time()
+        self.health -= x
 
     @property
     def get_position(self):
@@ -56,10 +54,10 @@ class Enemy:
         move_by = (round(length // self.health_max))
         health_bar = move_by * self.health
 
-        if self.flipped:
+        if self.flipped and self.health > 0:
             pygame.draw.rect(surface, (255, 0, 0), (self.x + 16, self.y, length, 8))
             pygame.draw.rect(surface, (0, 255, 0), (self.x + 16, self.y, health_bar, 8))
-        else:
+        elif not self.flipped and self.health > 0:
             pygame.draw.rect(surface, (255, 0, 0), (self.x, self.y, length, 8))
             pygame.draw.rect(surface, (0, 255, 0), (self.x, self.y, health_bar, 8))
 
@@ -110,9 +108,9 @@ class Enemy:
             self.animation_index = 0
         self.img = pygame.transform.scale(self.imgs[self.animation_index], (self.width, self.height))
 
-        if self.flipped:  # if the enemy is moving left
+        if self.flipped and self.health > 0:  # if the enemy is moving left
             surface.blit(pygame.transform.flip(self.img, True, False), (self.x, self.y))
-        else:  # if the enemy is moving right
+        elif not self.flipped and self.health > 0:  # if the enemy is moving right
             surface.blit(self.img, (self.x, self.y))
         if not self.pause:
             self.animation_index += 1
@@ -135,6 +133,10 @@ class Enemy:
         """
         if self.pause != x:
             self.pause = x
+
+    @property
+    def get_health(self):
+        return self.health
 
 
 class Enemy1(Enemy):
